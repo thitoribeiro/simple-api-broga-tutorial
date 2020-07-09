@@ -23,9 +23,10 @@ app.post('/', (req, res) => {
   return res.json([name, surename]);
 });
 
-app.put('/:identifier', (req,res) => {
-  const identifier = req.params.identifier;
-  return res.json([identifier]);
+app.put('/:id', (req,res) => {
+  const id = req.params.id;
+  const item = data.find(item => item.id == id);
+  return res.json(item);
 });
 
 
