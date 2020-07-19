@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const port = 3001;
 const data = [
   { id: 1, name: "Mike", age: 22, company: "Nascetur Mus Company" },
   { id: 2, name: "Eleanor", age: 42, company: "Hendrerit Donec LLP" },
@@ -10,11 +10,21 @@ const data = [
   { id: 5, name: "Jason", age: 31, company: "Accumsan Interdum Associates" },
 ];
 
+const findItem = id => {
+  return data.find(item => item.id == id);
+};
+
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   const result = { name: 'Thito', surename: 'Ribeiro', };
   return res.json(result);
+});
+
+app.get('/:id', (req, res) => {
+  const item = findItem(req.params.id);
+  return res.json(item);
 });
 
 app.post('/', (req, res) => {
@@ -24,9 +34,16 @@ app.post('/', (req, res) => {
 });
 
 app.put('/:id', (req,res) => {
-  const id = req.params.id;
-  const item = data.find(item => item.id == id);
+  const name = req.body.name;
+  let item = findItem(req.params.id);
+  item = { ...item, name: name };
   return res.json(item);
+});
+
+app.delete('/:id', (req, res) => {
+  const item = findItem(req.params.id);
+  //deletar o item
+  return res.json({});
 });
 
 
